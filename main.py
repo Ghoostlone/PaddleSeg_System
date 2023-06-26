@@ -69,5 +69,5 @@ def index():
 #开始运行
 if __name__ == '__main__':
     # app.run()
-    server = pywsgi.WSGIServer(('0.0.0.0', 5001), app)
+    server = pywsgi.WSGIServer(('0.0.0.0', 5002), app)
     server.serve_forever()
