@@ -9,17 +9,17 @@ from werkzeug.utils import secure_filename
 import shutil
 from gevent import pywsgi
 
-#初始化Flask后端
+# 初始化Flask后端
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
-#连接到数据库
-cnn = pymysql.connect(host="127.0.0.1", user="root", password="oypjyozj", database="test", charset="utf8")
+# 连接到数据库
+cnn = pymysql.connect(host="10.46.23.230", port=3306, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 
-#登录页面
+# 登录页面
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -40,11 +40,13 @@ def login():
         else:
             return render_template("/login/loginFail.html")
 
-#注册页面
+
+# 注册页面
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'GET':
-        return render_template("signup/signup.html")
+        return render_template("signup/signup_choices.html")
+        # return redirect("https://www.baidu.com")
     if request.method == 'POST':
         inputId = request.form.get("inputId")
         inputEmail = request.form.get("inputEmail")
@@ -61,12 +63,15 @@ def signup():
             print(inputId + " signing up successfully")
             return render_template("signup/SignupSuccess.html")
 
-#主页
+
+# 主页
 @app.route('/index/index', methods=['GET'])
 def index():
     if request.method == 'GET':
         return render_template("index/index.html", id=session.get('userid'))
-#开始运行
+
+
+# 开始运行
 if __name__ == '__main__':
     # app.run()
     server = pywsgi.WSGIServer(('0.0.0.0', 5001), app)
