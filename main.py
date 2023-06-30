@@ -53,7 +53,6 @@ def signup():
         inputPassword = request.form.get("inputPassword")
         identity_Flag = request.form.get("identity")
         Identity = ""
-        # todo 医生注册时需要验证Sir_key
         Sir_key = request.form.get("sir_yes_sir")
         if identity_Flag == "0":
             Identity = "doctor"
