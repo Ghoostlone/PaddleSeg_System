@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="10.46.23.230", port=3306, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 
@@ -45,23 +45,41 @@ def login():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'GET':
-        return render_template("signup/signup_choices.html")
+        return render_template("signup/signup.html")
         # return redirect("https://www.baidu.com")
     if request.method == 'POST':
         inputId = request.form.get("inputId")
         inputEmail = request.form.get("inputEmail")
         inputPassword = request.form.get("inputPassword")
-        print("receive sign up request:" + inputId, inputEmail, inputPassword)
+        identity_Flag = request.form.get("identity")
+        Identity = ""
+        # todo 医生注册时需要验证Sir_key
+        Sir_key = request.form.get("sir_yes_sir")
+        if identity_Flag == "0":
+            Identity = "doctor"
+        elif identity_Flag == "1":
+            Identity = "patient"
+        print("receive sign up request:" + inputId, inputEmail, inputPassword, Identity)
         cursor.execute("SELECT * FROM USER WHERE id = '%s'" % inputId)
         results = cursor.fetchall()
         if results:
             return render_template("signup/SignupFail.html")
         else:
-            sql = "INSERT INTO  `user` VALUES('" + inputId + "','" + inputEmail + "','" + inputPassword + "')"
-            n = cursor.execute(sql)
-            cursor.connection.commit()
-            print(inputId + " signing up successfully")
-            return render_template("signup/SignupSuccess.html")
+            sql = "INSERT INTO  `user` VALUES('" + inputId + "','" + inputEmail + "','" \
+                  + inputPassword + "','" + Identity + "')"
+            if identity_Flag == "0":
+                if Sir_key == "LGDLGD":
+                    n = cursor.execute(sql)
+                    cursor.connection.commit()
+                    print(inputId + " signing up successfully")
+                    return render_template("signup/SignupSuccess.html")
+                else:
+                    return render_template("signup/SignupFail.html")
+            elif identity_Flag == "1":
+                n = cursor.execute(sql)
+                cursor.connection.commit()
+                print(inputId + " signing up successfully")
+                return render_template("signup/SignupSuccess.html")
 
 
 # 主页

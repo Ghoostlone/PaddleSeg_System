@@ -19,16 +19,61 @@
     <div class="container">
 
       <form class="form-signin" action="" method="post">
-        <h2 class="form-signin-heading" style="color: #50B57F">注册</h2>
-        <label for="inputEmail" class="sr-only">邮箱</label>
-        <input type="text" id="inputEmail" name="inputEmail" class="form-control" placeholder="邮箱" required="" autofocus="">
-        <label for="inputId" class="sr-only">用户名</label>
-        <input type="text" id="inputId" name="inputId" class="form-control" placeholder="用户名" required="" autofocus="">
-        <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="密码" required="">
-        <a href="/signup">
-          <input type="submit" class="btn btn-lg btn-primary btn-block" style="color: #50B57F ;background:#2B2D3E" value="注  册">
-        </a>
+            <h2 class="form-signin-heading" style="color: #50B57F">注册</h2>
+            <table class="center-block">
+                <tr>
+                    <th>
+                        <label for="inputEmail" class="sr-only">邮箱</label>
+                        <input type="text" id="inputEmail" name="inputEmail" class="form-control" placeholder="邮箱" required="" autofocus="">
+                    </th>
+                    <th>
+                        <text class="text-danger">&nbsp;&nbsp;&nbsp;*</text>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputId" class="sr-only">用户名</label>
+                        <input type="text" id="inputId" name="inputId" class="form-control" placeholder="用户名" required="" autofocus="">
+                    </th>
+                    <th>
+                        <text class="text-danger">&nbsp;&nbsp;&nbsp;*</text>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputPassword" class="sr-only">密码</label>
+                        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="密码" required="">
+                    </th>
+                    <th>
+                        <text class="text-danger">&nbsp;&nbsp;&nbsp;*</text>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <select class="carousel-inner" aria-label="Identity" id="identity" name="identity" >
+                          <option value="0">我是医生</option>
+                          <option value="1">我是病人</option>
+                        </select>
+                    </th>
+                    <th>
+                        <text class="text-danger">&nbsp;&nbsp;&nbsp;*</text>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputPassword" class="sr-only">管理员密钥</label>
+                        <input type="password" id="sir_yes_sir" name="sir_yes_sir" class="form-control" placeholder="管理员密钥" required="">
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="/signup">
+                          <input type="submit" class="btn btn-lg btn-primary btn-block" style="color: #50B57F ;background:#2B2D3E" value="注  册">
+                        </a>
+                    </th>
+                </tr>
+            </table>
+
       </form>
 
 
