@@ -88,6 +88,23 @@ def index():
         return render_template("index/index.html", id=session.get('userid'))
 
 
+# 上传CT
+@app.route('/upload/upload', methods=['POST', 'GET'])
+def upload():
+    if request.method == 'GET':
+        return render_template("upload/upload_image.html", id=session.get('userid'))
+    if request.method == 'POST':
+        f = request.files['image']
+        base_path = os.path.dirname(__file__)
+        # print(base_path)
+        img_path = secure_filename(f.filename)
+        upload_path = os.path.join(base_path, 'static/img/nii_path', img_path)
+        # print(upload_path)
+        f.save(upload_path)
+
+        return render_template("index/index.html", id=session.get('userid'))
+
+
 # 开始运行
 if __name__ == '__main__':
     # app.run()

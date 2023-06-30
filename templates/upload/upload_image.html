@@ -48,9 +48,9 @@
       <div class="row" style="background:#21212E">
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
           <ul class="nav nav-sidebar">
-            <li><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color: #50B57F" href="/index">系统简介</a></li>
-            <li class="active"><a style="color:#50B57F">上传眼底图</a></li>
-            <li><a style="color:#50B57F" href="/draw1">训练结果与标记</a></li>
+            <li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
+            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F">上传CT图</a></li>
+            <li><a style="color:#50B57F" href="/draw1">分割结果</a></li>
             <li role="presentation" class="disabled"><a style="color:#50B57F" href="/evaluate1">各次训练对比</a></li>
             <li role="presentation" class="disabled"><a style="color:#50B57F" href="">最终预测结果与模型评分</a></li>
           </ul>
@@ -58,7 +58,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Dashboard</h1>
 
-          <h2 class="sub-header" style="color:#50B57F">上传图片环节</h2>
+          <h2 class="sub-header" style="color:#50B57F">上传CT环节</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -99,7 +99,7 @@
   $('#img_sub_bu').click(function () {
             var formFile = new FormData($('#img_sub')[0])
 		     $.ajax({
-                url:"/upload",
+                url:"/upload/upload",
                 type:"POST",
                 data:formFile,
                 processData:false,
