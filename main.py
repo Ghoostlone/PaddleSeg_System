@@ -28,12 +28,14 @@ def login():
         inputId = request.form.get('inputId')
         inputPassword = request.form.get('inputPassword')
         print(inputId, inputPassword)
-        cursor.execute("SELECT pwd FROM `user` WHERE id='" + inputId + "'")
+        cursor.execute("SELECT pwd , identity FROM `user` WHERE id='" + inputId + "'")
         result = cursor.fetchall()
+        print(result)
         if result:
             for row in result:
                 if row[0] == inputPassword:
                     session['userid'] = inputId
+                    session['identity'] = row[1]
                     return redirect('/index/index')
             else:
                 return render_template("login/wrongPWD.html")
@@ -85,7 +87,9 @@ def signup():
 @app.route('/index/index', methods=['GET'])
 def index():
     if request.method == 'GET':
-        return render_template("index/index.html", id=session.get('userid'))
+        if session.get('identity'):
+            return render_template("index/for_doctor.html", id=session.get('userid'))
+            return render_template("index/for_patient.html", id=session.get('userid'))
 
 
 # 上传CT
@@ -102,7 +106,7 @@ def upload():
         # print(upload_path)
         f.save(upload_path)
 
-        return render_template("index/index.html", id=session.get('userid'))
+        return render_template("index/for_doctor.html", id=session.get('userid'))
 
 
 # 开始运行
