@@ -112,13 +112,17 @@ def upload():
                     img_path = secure_filename(f.filename)
                     dir_path = os.path.join(base_path, 'static/img/nii_path', patient_ID)
                     upload_path = os.path.join(base_path, 'static/img/nii_path', patient_ID, img_path)
-                    if os.path.exists(upload_path):
+                    if os.path.exists(dir_path):
                         f.save(upload_path)
                     # print(upload_path)
                     else:
                         os.mkdir(dir_path)
                         f.save(upload_path)
-                    return render_template("index/for_doctor.html", id=session.get('userid'))
+                else:
+                    return "此ID非病人，请重新输入"
+        else:
+            return "查无此人，请重新输入病人ID"
+        return render_template("index/for_patient.html", id=session.get('userid'))
 
 
 # 开始运行
