@@ -100,14 +100,25 @@ def upload():
         return render_template("upload/upload_image.html", id=session.get('userid'))
     if request.method == 'POST':
         f = request.files['image']
+        patient_ID = request.form.get("id")
         base_path = os.path.dirname(__file__)
-        # print(base_path)
-        img_path = secure_filename(f.filename)
-        upload_path = os.path.join(base_path, 'static/img/nii_path', img_path)
-        # print(upload_path)
-        f.save(upload_path)
-
-        return render_template("index/for_doctor.html", id=session.get('userid'))
+        # 检测用户名匹配
+        cursor.execute("SELECT * FROM `user` WHERE id='" + patient_ID + "'")
+        result = cursor.fetchall()
+        print(result)
+        if result:
+            for row in result:
+                if row[3] == "patient":
+                    img_path = secure_filename(f.filename)
+                    dir_path = os.path.join(base_path, 'static/img/nii_path', patient_ID)
+                    upload_path = os.path.join(base_path, 'static/img/nii_path', patient_ID, img_path)
+                    if os.path.exists(upload_path):
+                        f.save(upload_path)
+                    # print(upload_path)
+                    else:
+                        os.mkdir(dir_path)
+                        f.save(upload_path)
+                    return render_template("index/for_doctor.html", id=session.get('userid'))
 
 
 # 开始运行

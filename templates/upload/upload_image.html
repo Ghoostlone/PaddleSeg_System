@@ -49,10 +49,8 @@
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
           <ul class="nav nav-sidebar">
             <li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
-            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F">上传CT图</a></li>
-            <li><a style="color:#50B57F" href="/draw1">分割结果</a></li>
-            <li role="presentation" class="disabled"><a style="color:#50B57F" href="/evaluate1">各次训练对比</a></li>
-            <li role="presentation" class="disabled"><a style="color:#50B57F" href="">最终预测结果与模型评分</a></li>
+            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F">上传CT图进行分割</a></li>
+            <li role="presentation" class="disabled"><a style="color:#50B57F">查看3D结果</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -63,12 +61,13 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>上传图片</th>
+                  <th style="color: #50B57F">上传.nii.gz文件</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <form id="img_sub" enctype='multipart/form-data'>
+                    <td><input type="text" name="id" placeholder="病人ID"></td>
                     <td><input type="file" name="image"></td>
                     <td><input type="button" value="上传" id="img_sub_bu"></td>
                   </form>
