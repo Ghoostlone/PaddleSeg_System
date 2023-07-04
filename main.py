@@ -87,8 +87,9 @@ def signup():
 @app.route('/index/index', methods=['GET'])
 def index():
     if request.method == 'GET':
-        if session.get('identity'):
+        if session.get('identity') == "doctor":
             return render_template("index/for_doctor.html", id=session.get('userid'))
+        elif session.get('identity') == "patient":
             return render_template("index/for_patient.html", id=session.get('userid'))
 
 
