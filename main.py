@@ -136,10 +136,13 @@ def upload():
 
 
 # 看CT
-@app.route('/CT_view/ct_view', methods=['GET'])
+@app.route('/CT_view/ct_view', methods=['GET', 'POST'])
 def CT_view():
     if request.method == 'GET':
         return render_template("CT_view/ct_view.html", id=session.get('userid'))
+    if request.method == 'POST':
+        print(123)
+        return render_template("CT_view/3D_render.html", id=session.get('userid'))
 
 
 @app.route('/search', methods=['POST'])

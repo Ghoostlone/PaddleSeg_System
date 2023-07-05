@@ -55,18 +55,17 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <table>
             <tr>
-              <form action="/evaluate1" method="post">
-              <td style="color:#50B57F">选择想要对比的两个结果</td>
+              <form action="/CT_view/ct_view" method="post">
               <td style="color:#50B57F">
-
+                <input type="text" style="color: #50B57F" placeholder="病患ID">
               </td>
               <td style="color:#50B57F">
-                <input type="submit" value="查询结果对比图">
+                <input type="submit" value="查看3D模型">
               </td>
               </form>
             </tr>
             <tr>
-              <input type="button" id="btn" value="查询病人ID">
+              <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
               <div id="ajaxtest" style="color: #50B57F"></div>
             </tr>
           </table>
