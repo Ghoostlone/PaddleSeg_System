@@ -123,7 +123,7 @@ def upload():
                         f.save(upload_path)
                     print(diagnosis_ID, session.get('userid'), patient_ID, upload_path)
                     print(upload_path)
-                    upload_path=upload_path.replace("\\","/")
+                    upload_path = upload_path.replace("\\", "/")
                     sql = "INSERT INTO diagnosis VALUES (" + diagnosis_ID + "," + session.get(
                         'userid') + "," + patient_ID + ",'" + upload_path + "')        "
                     cursor.execute(sql)
@@ -135,11 +135,21 @@ def upload():
         return render_template("index/for_doctor.html", id=session.get('userid'))
 
 
+# 看CT
 @app.route('/CT_view/ct_view', methods=['GET'])
 def CT_view():
     if request.method == 'GET':
         return render_template("CT_view/ct_view.html", id=session.get('userid'))
 
+
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == 'POST':
+        cursor.execute("SELECT * FROM `user` WHERE identity='patient'")
+        result = cursor.fetchall()
+        if result:
+            print(result)
+            return result
 
 # 开始运行
 if __name__ == '__main__':
