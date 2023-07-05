@@ -147,9 +147,14 @@ def search():
     if request.method == 'POST':
         cursor.execute("SELECT * FROM `user` WHERE identity='patient'")
         result = cursor.fetchall()
+        return_things = ""
         if result:
-            print(result)
-            return result
+            # print(result)
+            for i in result:
+                # print(i[0])
+                return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
+        return return_things
+
 
 # 开始运行
 if __name__ == '__main__':
