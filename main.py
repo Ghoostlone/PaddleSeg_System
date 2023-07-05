@@ -100,6 +100,7 @@ def upload():
         return render_template("upload/upload_image.html", id=session.get('userid'))
     if request.method == 'POST':
         f = request.files['image']
+        diagnosis_ID = request.form.get("diagnosis")
         patient_ID = request.form.get("id")
         base_path = os.path.dirname(__file__)
         # 检测用户名匹配
@@ -112,17 +113,29 @@ def upload():
                     img_path = secure_filename(f.filename)
                     dir_path = os.path.join(base_path, 'static/img/nii_path', patient_ID)
                     upload_path = os.path.join(base_path, 'static/img/nii_path', patient_ID, img_path)
+                    # upload_path = upload_path.replaceAll("\\", "\\\\")
+
                     if os.path.exists(dir_path):
                         f.save(upload_path)
                     # print(upload_path)
                     else:
                         os.mkdir(dir_path)
                         f.save(upload_path)
+                    print(diagnosis_ID, session.get('userid'), patient_ID, upload_path)
+                    sql = "INSERT INTO diagnosis VALUES ("+diagnosis_ID+","+session.get('userid')+","+patient_ID+",'"+upload_path+"')        "
+                    cursor.execute(sql)
+                    cursor.connection.commit()
                 else:
                     return "此ID非病人，请重新输入"
         else:
             return "查无此人，请重新输入病人ID"
         return render_template("index/for_patient.html", id=session.get('userid'))
+
+
+@app.route('/CT_view/ct_view', methods=['GET'])
+def CT_view():
+    if request.method == 'GET':
+        return render_template("CT_view/ct_view.html", id=session.get('userid'))
 
 
 # 开始运行
