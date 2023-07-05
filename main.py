@@ -122,14 +122,17 @@ def upload():
                         os.mkdir(dir_path)
                         f.save(upload_path)
                     print(diagnosis_ID, session.get('userid'), patient_ID, upload_path)
-                    sql = "INSERT INTO diagnosis VALUES ("+diagnosis_ID+","+session.get('userid')+","+patient_ID+",'"+upload_path+"')        "
+                    print(upload_path)
+                    upload_path=upload_path.replace("\\","/")
+                    sql = "INSERT INTO diagnosis VALUES (" + diagnosis_ID + "," + session.get(
+                        'userid') + "," + patient_ID + ",'" + upload_path + "')        "
                     cursor.execute(sql)
                     cursor.connection.commit()
                 else:
                     return "此ID非病人，请重新输入"
         else:
             return "查无此人，请重新输入病人ID"
-        return render_template("index/for_patient.html", id=session.get('userid'))
+        return render_template("index/for_doctor.html", id=session.get('userid'))
 
 
 @app.route('/CT_view/ct_view', methods=['GET'])
