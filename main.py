@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="frp-act.top", port=34761, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 
@@ -128,11 +128,12 @@ def upload():
                         'userid') + "," + patient_ID + ",'" + upload_path + "')        "
                     cursor.execute(sql)
                     cursor.connection.commit()
+                    return render_template("index/for_doctor.html", id=session.get('userid'))
                 else:
                     return "此ID非病人，请重新输入"
         else:
             return "查无此人，请重新输入病人ID"
-        return render_template("index/for_doctor.html", id=session.get('userid'))
+
 
 
 # 看CT
@@ -146,6 +147,15 @@ def CT_view():
         print(ply_path)
         return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
 
+
+@app.route('/start_Predict',methods=['GET','POST'])
+def start_Predict():
+    if request.method=='GET':
+        return render_template("Predict/start_Predict.html",id=session.get('userid'))
+    if request.method=='POST':
+        # command_Line = "python nnunet/infer.py --image_folder /root/autodl-tmp/Flask/static/img/nii_path/"
+        # os.system(command_Line)
+        print(123213)
 
 @app.route('/P_CT', methods=['POST', 'GET'])
 def p_ct():
@@ -175,5 +185,5 @@ def search():
 # 开始运行
 if __name__ == '__main__':
     # app.run()
-    server = pywsgi.WSGIServer(('0.0.0.0', 5001), app)
+    server = pywsgi.WSGIServer(('0.0.0.0', 6006), app)
     server.serve_forever()
