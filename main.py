@@ -174,7 +174,7 @@ def run_Pred():
         File_path=request.form.get("file_path")
         final_path=File_path.split('.',1)[0]+"_0000.nii.gz"
         # session['pred_path'] = File_path
-        return "12312412412412412412124421"
+        return render_template("Predict/running.html")
 @app.route('/P_CT', methods=['POST', 'GET'])
 def p_ct():
     if request.method == 'GET':
