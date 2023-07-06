@@ -65,11 +65,12 @@
               </thead>
               <tbody>
                 <tr>
-                  <form id="img_sub" enctype='multipart/form-data'>
+                  <form id="img_sub" enctype='multipart/form-data' style="color: #2B2D3D">
                     <td><input type="text" name="diagnosis" placeholder="诊断ID"></td>
                     <td><input type="text" name="id" placeholder="病人ID"></td>
                     <td><input type="file" name="image"></td>
                     <td><input type="button" value="上传" id="img_sub_bu"></td>
+                    <td><div id="img1"></div></td>
                   </form>
                 </tr>
                 <tr>
@@ -105,7 +106,7 @@
                 processData:false,
                 contentType:false,
                 success: function (data) {
-                    document.getElementById('img1').innerHTML=data
+                    $("#img1").html(data);
                 }
              })
         })

@@ -128,7 +128,8 @@ def upload():
                         'userid') + "," + patient_ID + ",'" + upload_path + "')        "
                     cursor.execute(sql)
                     cursor.connection.commit()
-                    return render_template("index/for_doctor.html", id=session.get('userid'))
+                    print(123132132132132132121213123213213)
+                    return "已上传成功"
                 else:
                     return "此ID非病人，请重新输入"
         else:
