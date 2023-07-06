@@ -17,6 +17,7 @@
         }
 
     </style>
+    <div id="1" d="{{ply_path}}"></div>
 </head>
 <body>
 
@@ -29,7 +30,8 @@
     import { PLYLoader } from '../../static/three/examples/jsm/loaders/PLYLoader.js'
     // 场景
 		var scene = new THREE.Scene();
-
+        var ply_path=document.getElementById(1).getAttribute('d');
+        console.log(ply_path)
 		// 摄像机
 		var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 		camera.position.z = 5;
@@ -53,7 +55,9 @@
         scene.add(helper);
 
 		var loader = new PLYLoader();
-        loader.load("../../static/ply/niiEsophagus.ply", function (geometry) {
+        //处理路径传递
+        var path1=ply_path+"niiEsophagus.ply";
+        loader.load(path1, function (geometry) {
 
             //更新顶点的法向量
             // geometry.computeVertexNormals();

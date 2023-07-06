@@ -141,8 +141,10 @@ def CT_view():
     if request.method == 'GET':
         return render_template("CT_view/ct_view.html", id=session.get('userid'))
     if request.method == 'POST':
-        print(123)
-        return render_template("CT_view/3D_render.html", id=session.get('userid'))
+        P_ID = request.form.get("P_ID")
+        ply_path = "../../static/img/ply_path/" + P_ID + "/"
+        print(ply_path)
+        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
 
 
 @app.route('/search', methods=['POST'])
