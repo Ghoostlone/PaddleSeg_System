@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="frp-act.top", port=34761, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="frp-act.top", port=55926, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 
@@ -110,7 +110,7 @@ def upload():
         if result:
             for row in result:
                 if row[3] == "patient":
-                    img_path = secure_filename(f.filename)
+                    img_path = secure_filename(f.filename).split('.',1)[0]+"_0000.nii.gz"
                     dir_path = os.path.join(base_path, 'static/img/nii_path', patient_ID)
                     upload_path = os.path.join(base_path, 'static/img/nii_path', patient_ID, img_path)
                     # upload_path = upload_path.replaceAll("\\", "\\\\")
@@ -154,10 +154,27 @@ def start_Predict():
     if request.method=='GET':
         return render_template("Predict/start_Predict.html",id=session.get('userid'))
     if request.method=='POST':
+        P_ID=request.form.get("id")
+        print(P_ID)
+        cursor.execute("SELECT * FROM `diagnosis` WHERE patient_id='" + P_ID + "'")
+        result = cursor.fetchall()
+        print(result)
+        all_row=""
+        if result:
+            for row in result:
+                all_row=all_row+row[3]+"<br />"
+            return all_row
+        else:
+            return 124141412412412412412412412412
         # command_Line = "python nnunet/infer.py --image_folder /root/autodl-tmp/Flask/static/img/nii_path/"
         # os.system(command_Line)
-        print(123213)
-
+@app.route('/run_predict',methods=['POST'])
+def run_Pred():
+    if request.method=='POST':
+        File_path=request.form.get("file_path")
+        final_path=File_path.split('.',1)[0]+"_0000.nii.gz"
+        # session['pred_path'] = File_path
+        return "12312412412412412412124421"
 @app.route('/P_CT', methods=['POST', 'GET'])
 def p_ct():
     if request.method == 'GET':
