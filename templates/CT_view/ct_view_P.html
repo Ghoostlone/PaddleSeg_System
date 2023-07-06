@@ -48,16 +48,15 @@
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
           <ul class="nav nav-sidebar">
             <li><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color: #50B57F" href="/index/index">系统简介</a></li>
-            <li class="active"><a style="color:#50B57F" href="/CT_view/ct_view">查看本人CT结果</a></li>
+            <li class="active"><a style="color:#50B57F">查看本人CT结果</a></li>
             <li><a style="color:#50B57F">下载病历</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <table>
             <tr>
-              <form action="/CT_view/ct_view" method="post">
+              <form action="/P_CT" method="post">
               <td style="color:#50B57F">
-                <input type="text" style="color: #50B57F" name="P_ID" placeholder="病患ID">
               </td>
               <td style="color:#50B57F">
                 <input type="submit" value="查看3D模型">
@@ -65,8 +64,8 @@
               </form>
             </tr>
             <tr>
-              <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
-              <div id="ajaxtest" style="color: #50B57F"></div>
+<!--              <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">-->
+<!--              <div id="ajaxtest" style="color: #50B57F"></div>-->
             </tr>
           </table>
           </div>
@@ -86,17 +85,17 @@
 
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><div id="saladict-saladbowl-root" class="saladict-div saladict-external"><div class="saladict-external"></div></div></html>
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-<script>
-  $('#btn').click(function () {
-		     $.ajax({
-                url:"/search",
-                type:"POST",
-                data:null,
-                processData:false,
-                contentType:false,
-                success: function (data) {
-                    $("#ajaxtest").html(data);
-                }
-             })
-        })
-</script>
+<!--<script>-->
+<!--  $('#btn').click(function () {-->
+<!--		     $.ajax({-->
+<!--                url:"/search",-->
+<!--                type:"POST",-->
+<!--                data:null,-->
+<!--                processData:false,-->
+<!--                contentType:false,-->
+<!--                success: function (data) {-->
+<!--                    $("#ajaxtest").html(data);-->
+<!--                }-->
+<!--             })-->
+<!--        })-->
+<!--</script>-->

@@ -73,7 +73,8 @@
                   </form>
                 </tr>
                 <tr>
-                  <div id="img1" style="color: #50B57F"></div>
+                  <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
+                  <div id="ajaxtest" style="color: aquamarine"></div>
                 </tr>
               </tbody>
             </table>
@@ -105,6 +106,20 @@
                 contentType:false,
                 success: function (data) {
                     document.getElementById('img1').innerHTML=data
+                }
+             })
+        })
+</script>
+<script>
+  $('#btn').click(function () {
+		     $.ajax({
+                url:"/search",
+                type:"POST",
+                data:null,
+                processData:false,
+                contentType:false,
+                success: function (data) {
+                    $("#ajaxtest").html(data);
                 }
              })
         })

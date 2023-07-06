@@ -147,6 +147,17 @@ def CT_view():
         return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
 
 
+@app.route('/P_CT', methods=['POST', 'GET'])
+def p_ct():
+    if request.method == 'GET':
+        return render_template("CT_view/ct_view_P.html", id=session.get('userid'))
+    if request.method == 'POST':
+        P_ID = session.get('userid')
+        ply_path = "../../static/img/ply_path/" + P_ID + "/"
+        print(ply_path)
+        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
+
+
 @app.route('/search', methods=['POST'])
 def search():
     if request.method == 'POST':
