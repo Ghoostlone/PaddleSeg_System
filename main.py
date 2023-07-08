@@ -8,6 +8,150 @@ from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 import shutil
 from gevent import pywsgi
+import vtk
+from trimesh.exchange.obj import export_obj
+
+#几个nii转ply的方法
+def read_nii(filename):
+    """
+    读取nii文件，输入文件路径
+    """
+    reader = vtk.vtkNIFTIImageReader()
+    reader.SetFileName(filename)
+    reader.Update()
+    return reader
+
+
+def get_mc_contour(file, setvalue):
+    """
+    计算轮廓的方法
+    file:读取的vtk类
+    setvalue:要得到的轮廓的值
+    """
+    contour = vtk.vtkDiscreteMarchingCubes()
+    # ChatGPT say:
+    # vtkDiscreteMarchingCubes和vtkMarchingCubes是两个在VTK（Visualization Toolkit）库中用于构建3D模型的算法。它们的主要区别在于如何处理输入数据。
+    # vtkMarchingCubes是一种连续的算法，用于从体数据（例如体素数据或标量场数据）中提取等值面。
+    # 它基于Marching Cubes算法，将体数据划分为小立方体单元，并根据单元内部的数值情况确定等值面的形状和拓扑关系。
+    # vtkMarchingCubes可以处理连续的数据集，并产生光滑的等值面。
+    # 与之相反，vtkDiscreteMarchingCubes是一种离散的算法，用于从离散的体数据中提取等值面。
+    # 它适用于离散的数据集，其中体素只能具有预定义的几种状态，例如0和1。离散数据集通常用于表示二值图像或分割结果等。
+    # vtkDiscreteMarchingCubes使用类似的原理，但对于离散数据集，它仅考虑预定义状态之间的界面，并生成离散的等值面。
+    # 总结一下，vtkMarchingCubes适用于处理连续的体数据，可以产生光滑的等值面，
+    # 而vtkDiscreteMarchingCubes适用于处理离散的体数据，只考虑预定义状态之间的界面，生成离散的等值面。
+    # 选择使用哪个算法取决于您的数据类型和应用需求。
+    contour.SetInputConnection(file.GetOutputPort())
+
+    contour.ComputeNormalsOn()
+    contour.SetValue(0, setvalue)
+    return contour
+
+
+def smoothing(smoothing_iterations, pass_band, feature_angle, contour):
+    '''
+    使轮廓变平滑
+    smoothing_iterations:迭代次数
+    pass_band:值越小单次平滑效果越明显
+    feature_angle:暂时不知道作用
+    '''
+    # vtk有两种平滑函数，效果类似
+    vtk.vtkSmoothPolyDataFilter()
+    smoother = vtk.vtkSmoothPolyDataFilter()
+    smoother.SetInputConnection(contour.GetOutputPort())
+    smoother.SetNumberOfIterations(50)
+    smoother.SetRelaxationFactor(0.6)  # 越大效果越明显
+
+    vtk.vtkWindowedSincPolyDataFilter()
+    smoother = vtk.vtkWindowedSincPolyDataFilter()
+    smoother.SetInputConnection(contour.GetOutputPort())
+    smoother.SetNumberOfIterations(smoothing_iterations)
+    smoother.BoundarySmoothingOff()
+    smoother.FeatureEdgeSmoothingOff()
+    smoother.SetFeatureAngle(feature_angle)
+    smoother.SetPassBand(pass_band)
+    smoother.NonManifoldSmoothingOn()
+    smoother.NormalizeCoordinatesOn()
+    smoother.Update()
+    return smoother
+
+
+def singledisplay(obj):
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputConnection(obj.GetOutputPort())
+    mapper.ScalarVisibilityOff()
+
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    renderer = vtk.vtkRenderer()
+    renderer.SetBackground([0.1, 0.1, 0.5])
+    renderer.AddActor(actor)
+    window = vtk.vtkRenderWindow()
+    window.SetSize(512, 512)
+    window.AddRenderer(renderer)
+
+    interactor = vtk.vtkRenderWindowInteractor()
+    interactor.SetRenderWindow(window)
+
+    # 开始显示
+    window.Render()
+    interactor.Initialize()
+    interactor.Start()
+    export_obj(window)
+    return window
+
+
+def multidisplay(obj):
+    # This sets the block at flat index 3 red
+    # Note that the index is the flat index in the tree, so the whole multiblock
+    # is index 0 and the blocks are flat indexes 1, 2 and 3.  This affects
+    # the block returned by mbds.GetBlock(2).
+    colors = vtk.vtkNamedColors()
+    mapper = vtk.vtkCompositePolyDataMapper2()
+    mapper.SetInputDataObject(obj)
+    cdsa = vtk.vtkCompositeDataDisplayAttributes()
+    mapper.SetCompositeDataDisplayAttributes(cdsa)
+    # 上色
+    mapper.SetBlockColor(1, colors.GetColor3d('Red'))
+    mapper.SetBlockColor(2, colors.GetColor3d('Lavender'))
+    mapper.SetBlockColor(3, colors.GetColor3d('Gray'))
+    mapper.SetBlockColor(4, colors.GetColor3d('Green'))
+    mapper.SetBlockColor(5, colors.GetColor3d('Yellow'))
+    mapper.SetBlockColor(6, colors.GetColor3d('Pink'))
+    mapper.SetBlockColor(7, colors.GetColor3d('Brown'))
+    mapper.SetBlockColor(8, colors.GetColor3d('Turquoise'))
+    mapper.SetBlockColor(9, colors.GetColor3d('Orange'))
+    mapper.SetBlockColor(10, colors.GetColor3d('Blue'))
+    mapper.SetBlockColor(11, colors.GetColor3d('Purple'))
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    # Create the Renderer, RenderWindow, and RenderWindowInteractor.
+    renderer = vtk.vtkRenderer()
+    renderWindow = vtk.vtkRenderWindow()
+    renderWindow.AddRenderer(renderer)
+    renderWindowInteractor = vtk.vtkRenderWindowInteractor()
+    renderWindowInteractor.SetRenderWindow(renderWindow)
+
+    # Enable user interface interactor.
+    renderer.AddActor(actor)
+    renderer.SetBackground(colors.GetColor3d('SteelBlue'))
+    renderWindow.SetWindowName('CompositePolyDataMapper')
+    renderWindow.Render()
+    renderWindowInteractor.Start()
+
+
+def write_ply(obj, save_dir, color):
+    """
+    输入必须是单个模型，vtkMultiBlockDataSet没有GetOutputPort()类
+    """
+
+    plyWriter = vtk.vtkPLYWriter()
+    plyWriter.SetFileName(save_dir)
+    plyWriter.SetColorModeToUniformCellColor()
+    plyWriter.SetColor(color[0], color[1], color[2])
+    plyWriter.SetInputConnection(obj.GetOutputPort())
+    plyWriter.Write()
 
 # 初始化Flask后端
 app = Flask(__name__)
@@ -156,6 +300,7 @@ def start_Predict():
     if request.method=='POST':
         P_ID=request.form.get("id")
         print(P_ID)
+        session['patient_id_selected']=P_ID
         cursor.execute("SELECT * FROM `diagnosis` WHERE patient_id='" + P_ID + "'")
         result = cursor.fetchall()
         print(result)
@@ -172,9 +317,69 @@ def start_Predict():
 def run_Pred():
     if request.method=='POST':
         File_path=request.form.get("file_path")
+        session['File']
         final_path=File_path.split('.',1)[0]+"_0000.nii.gz"
-        # session['pred_path'] = File_path
+        session['final_path'] = final_path
         return render_template("Predict/running.html")
+@app.route('/PaddleSeg',methods=['GET'])
+def PaddleSeg():
+    if request.method=='GET':
+        P_ID_SELECTED=session.get('patient_id_selected')
+        file_path="/root/autodl-tmp/Flask/static/img/nii_path/"+P_ID_SELECTED+"/"
+        output_path = "/root/autodl-tmp/Flask/static/img/seg_path/" + P_ID_SELECTED + "/"
+        if os.path.exists(output_path):
+            print("有了")
+        else:
+            os.mkdir(output_path)
+            print("没有，创了")
+        SegCommand="/root/miniconda3/envs/PaddleSeg/bin/python "\
+                    "/root/autodl-tmp/Flask/PaddleSeg/contrib/MedicalSeg/nnunet/infer.py --image_folder "+file_path+" --output_folder "+output_path+" " \
+                    "--plan_path /root/autodl-tmp/Flask/predict/nnUNetPlansv2.1_plans_3D.pkl " \
+                    "--model_paths /root/autodl-tmp/Flask/predict/baseline_model/model.pdmodel " \
+                    "--param_paths /root/autodl-tmp/Flask/predict/baseline_model/model.pdiparams " \
+                    "--postprocessing_json_path /root/autodl-tmp/Flask/predict/baseline_model/postprocessing.json " \
+                    "--model_type cascade_lowres " \
+                    "--disable_postprocessing " \
+                    "--save_npz"
+        os.system("cd /root/autodl-tmp/Flask/PaddleSeg/contrib/MedicalSeg")
+        os.chdir("/root/autodl-tmp/Flask/PaddleSeg/contrib/MedicalSeg")
+        print(os.getcwd())
+        os.system(SegCommand)
+        os.chdir("/root/autodl-tmp/Flask")
+        #分割完毕，开始转nii为ply保存
+        nii_dir = "./static/img/seg_path/"+P_ID_SELECTED+""
+        save_dir = './static/img/ply_path/12/'
+        smoothing_iterations = 100
+        pass_band = 0.005
+        feature_angle = 120
+        reader = read_nii(nii_dir)
+
+        color = [(0, 0, 0), (128, 0, 0), (0, 128, 0), (128, 128, 0), (0, 0, 128), (128, 0, 128), (0, 128, 128),
+                 (128, 128, 128), (64, 0, 0), (192, 0, 0), (64, 128,
+                                                            0), (192, 128, 0), (64, 0, 128), (192, 0, 128),
+                 (64, 128, 128), (192, 128, 128), (0, 64, 0), (128, 64, 0), (0, 192, 0), (128, 192, 0), (0, 64, 128),
+                 (128, 64, 12)]
+
+        mbds = vtk.vtkMultiBlockDataSet()
+        mbds.SetNumberOfBlocks(11)
+        items = ['background', 'Heart', 'Esophagus',
+                 'Lung_L', 'Lung_R', 'SpinalCord', 'Black', 'A', 'B', 'C', 'D', 'E', 'F']
+        for iter in range(1, 12):
+            print(iter)
+            contour = get_mc_contour(reader, iter)
+            smoothing_iterations = 100
+            pass_band = 0.005
+            feature_angle = 120
+            smoother = smoothing(smoothing_iterations, pass_band,
+                                 feature_angle, contour)
+            write_ply(smoother, save_dir + f'{items[iter]}.ply', color[iter])
+
+            mbds.SetBlock(iter, smoother.GetOutput())
+            #
+        # singledisplay(smoother)
+        # write_ply(mbds, save_dir + f'final.ply', color[3])
+        # multidisplay(mbds)#多重展示
+        return render_template("index/for_doctor.html", id=session.get('userid'))
 @app.route('/P_CT', methods=['POST', 'GET'])
 def p_ct():
     if request.method == 'GET':
@@ -198,6 +403,30 @@ def search():
                 # print(i[0])
                 return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
         return return_things
+
+
+
+
+
+
+@app.route('/tomesh', methods=['GET'])
+def tomesh():
+    if request.method=='GET':
+        print(12123123)
+    if request.method == 'POST':
+        cursor.execute("SELECT * FROM `user` WHERE identity='patient'")
+        result = cursor.fetchall()
+        return_things = ""
+        if result:
+            # print(result)
+            for i in result:
+                # print(i[0])
+                return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
+        return return_things
+
+
+
+
 
 
 # 开始运行
