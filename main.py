@@ -159,9 +159,8 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="frp-act.top", port=55926, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="frp-act.top", port=28774, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
-
 
 # 登录页面
 @app.route('/', methods=['GET', 'POST'])
@@ -247,6 +246,7 @@ def upload():
         diagnosis_ID = request.form.get("diagnosis")
         patient_ID = request.form.get("id")
         base_path = os.path.dirname(__file__)
+        print(base_path)
         # 检测用户名匹配
         cursor.execute("SELECT * FROM `user` WHERE id='" + patient_ID + "'")
         result = cursor.fetchall()
@@ -255,8 +255,11 @@ def upload():
             for row in result:
                 if row[3] == "patient":
                     img_path = secure_filename(f.filename).split('.',1)[0]+"_0000.nii.gz"
+                    print(img_path)
                     dir_path = os.path.join(base_path, 'static/img/nii_path', patient_ID)
+                    print(dir_path)
                     upload_path = os.path.join(base_path, 'static/img/nii_path', patient_ID, img_path)
+                    print(upload_path)
                     # upload_path = upload_path.replaceAll("\\", "\\\\")
 
                     if os.path.exists(dir_path):
@@ -317,7 +320,8 @@ def start_Predict():
 def run_Pred():
     if request.method=='POST':
         File_path=request.form.get("file_path")
-        session['File']
+        #todo 保存文件路径split
+        session['File']=File_path.split('/',)
         final_path=File_path.split('.',1)[0]+"_0000.nii.gz"
         session['final_path'] = final_path
         return render_template("Predict/running.html")
@@ -347,8 +351,16 @@ def PaddleSeg():
         os.system(SegCommand)
         os.chdir("/root/autodl-tmp/Flask")
         #分割完毕，开始转nii为ply保存
-        nii_dir = "./static/img/seg_path/"+P_ID_SELECTED+""
-        save_dir = './static/img/ply_path/12/'
+        #todo 保存位置记得改
+        nii_dir="/root/autodl-tmp/Flask/static/img/nii_path/12/12dc6a4c-ba92-4ffb-98e3-dbd0827e8b8a_0000.nii.gz"
+        # nii_dir = "./static/img/seg_path/"+P_ID_SELECTED+"/"
+        ply_path = "./static/img/ply_path/" + P_ID_SELECTED + "/"
+        if os.path.exists(ply_path):
+            print("有了")
+        else:
+            os.mkdir(ply_path)
+            print("没有，创了")
+        save_dir = ply_path
         smoothing_iterations = 100
         pass_band = 0.005
         feature_angle = 120
@@ -362,8 +374,8 @@ def PaddleSeg():
 
         mbds = vtk.vtkMultiBlockDataSet()
         mbds.SetNumberOfBlocks(11)
-        items = ['background', 'Heart', 'Esophagus',
-                 'Lung_L', 'Lung_R', 'SpinalCord', 'Black', 'A', 'B', 'C', 'D', 'E', 'F']
+        items = ['background', 'Esophagus', '2',
+                 '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
         for iter in range(1, 12):
             print(iter)
             contour = get_mc_contour(reader, iter)
