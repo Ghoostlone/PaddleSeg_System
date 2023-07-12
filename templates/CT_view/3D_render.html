@@ -29,7 +29,7 @@
     import { PLYLoader } from '../../static/three/examples/jsm/loaders/PLYLoader.js'
     // 场景
 		var scene = new THREE.Scene();
-        var ply_path=document.getElementById(1).getAttribute('d');
+        var ply_path=document.getElementById("1").getAttribute('d');
         console.log(ply_path)
 		// 摄像机
 		var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -55,8 +55,7 @@
 
 		var loader = new PLYLoader();
         //处理路径传递
-        var path1=ply_path+"niiEsophagus.ply";
-        loader.load(path1, function (geometry) {
+        loader.load(ply_path+"1.ply", function (geometry) {
 
             //更新顶点的法向量
             // geometry.computeVertexNormals();
@@ -68,19 +67,126 @@
             mesh.scale.set(0.05, 0.05, 0.05);
             scene.add( mesh );
         });
-        loader.load("././static/img/ply_path/12/1.ply", function (geometry) {
+        loader.load(ply_path+"2.ply", function (geometry) {
 
             //更新顶点的法向量
             // geometry.computeVertexNormals();
             geometry.translate(-200,-180,-100);
             //创建纹理，并将模型添加到场景道中
-            var material = new THREE.MeshStandardMaterial( { color: 0xffffff, flatShading: true } );
+            var material = new THREE.MeshStandardMaterial( { color: 0xff0000, flatShading: true } );
             var mesh = new THREE.Mesh( geometry, material );
             mesh.rotation.y = Math.PI;
             mesh.scale.set(0.05, 0.05, 0.05);
             scene.add( mesh );
         });
+        loader.load(ply_path+"3.ply", function (geometry) {
 
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0x00ff00, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"4.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0xffff00, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"5.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0xff00ff, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"6.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0x00ffff, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"7.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0x800080, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"8.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0xffa500, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"9.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0x008080, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"10.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0xff69b4, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
+        loader.load(ply_path+"11.ply", function (geometry) {
+
+            //更新顶点的法向量
+            // geometry.computeVertexNormals();
+            geometry.translate(-200,-180,-100);
+            //创建纹理，并将模型添加到场景道中
+            var material = new THREE.MeshStandardMaterial( { color: 0xc0c0c0, flatShading: true } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.rotation.y = Math.PI;
+            mesh.scale.set(0.05, 0.05, 0.05);
+            scene.add( mesh );
+        });
         //用户交互插件 鼠标左键按住旋转，右键按住平移，滚轮缩放
         var controls;
         controls = new OrbitControls( camera, renderer.domElement );

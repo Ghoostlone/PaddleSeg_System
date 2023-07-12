@@ -159,7 +159,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="frp-act.top", port=28774, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="frp-act.top", port=55926, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 # 登录页面
@@ -291,7 +291,7 @@ def CT_view():
         return render_template("CT_view/ct_view.html", id=session.get('userid'))
     if request.method == 'POST':
         P_ID = request.form.get("P_ID")
-        ply_path = "../../static/img/ply_path/" + P_ID + "/"
+        ply_path = "../static/img/ply_path/" + P_ID + "/"
         print(ply_path)
         return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
 
@@ -322,9 +322,13 @@ def run_Pred():
         File_path=request.form.get("file_path")
         #todo 保存文件路径split
         session['File']=File_path.split('/',)
-        final_path=File_path.split('.',1)[0]+"_0000.nii.gz"
+        final_path=File_path.split('.',1)[0]+".nii.gz"
+        final_path=final_path.replace('nii_path','seg_path')
+        final_path=final_path.replace('_0000.nii.gz','.nii.gz')
         session['final_path'] = final_path
+        print(session.get('final_path'))
         return render_template("Predict/running.html")
+
 @app.route('/PaddleSeg',methods=['GET'])
 def PaddleSeg():
     if request.method=='GET':
@@ -351,9 +355,9 @@ def PaddleSeg():
         os.system(SegCommand)
         os.chdir("/root/autodl-tmp/Flask")
         #分割完毕，开始转nii为ply保存
+        print("这是final_path",session.get("final_path"))
         #todo 保存位置记得改
-        nii_dir="/root/autodl-tmp/Flask/static/img/nii_path/12/12dc6a4c-ba92-4ffb-98e3-dbd0827e8b8a_0000.nii.gz"
-        # nii_dir = "./static/img/seg_path/"+P_ID_SELECTED+"/"
+        nii_dir = session.get('final_path')
         ply_path = "./static/img/ply_path/" + P_ID_SELECTED + "/"
         if os.path.exists(ply_path):
             print("有了")
@@ -374,7 +378,7 @@ def PaddleSeg():
 
         mbds = vtk.vtkMultiBlockDataSet()
         mbds.SetNumberOfBlocks(11)
-        items = ['background', 'Esophagus', '2',
+        items = ['background', '1', '2',
                  '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
         for iter in range(1, 12):
             print(iter)
@@ -392,15 +396,19 @@ def PaddleSeg():
         # write_ply(mbds, save_dir + f'final.ply', color[3])
         # multidisplay(mbds)#多重展示
         return render_template("index/for_doctor.html", id=session.get('userid'))
+
 @app.route('/P_CT', methods=['POST', 'GET'])
 def p_ct():
     if request.method == 'GET':
         return render_template("CT_view/ct_view_P.html", id=session.get('userid'))
     if request.method == 'POST':
         P_ID = session.get('userid')
-        ply_path = "../../static/img/ply_path/" + P_ID + "/"
-        print(ply_path)
-        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
+        base_path = os.path.dirname(__file__)
+        print(base_path)
+        ply_path = "static/img/ply_path/" + P_ID
+        upload_path = os.path.join(base_path,ply_path)
+        print(upload_path)
+        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=upload_path)
 
 
 @app.route('/search', methods=['POST'])
@@ -416,11 +424,6 @@ def search():
                 return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
         return return_things
 
-
-
-
-
-
 @app.route('/tomesh', methods=['GET'])
 def tomesh():
     if request.method=='GET':
@@ -435,10 +438,6 @@ def tomesh():
                 # print(i[0])
                 return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
         return return_things
-
-
-
-
 
 
 # 开始运行
