@@ -405,10 +405,10 @@ def p_ct():
         P_ID = session.get('userid')
         base_path = os.path.dirname(__file__)
         print(base_path)
-        ply_path = "static/img/ply_path/" + P_ID
+        ply_path = "../static/img/ply_path/" + P_ID + "/"
         upload_path = os.path.join(base_path,ply_path)
         print(upload_path)
-        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=upload_path)
+        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
 
 
 @app.route('/search', methods=['POST'])
@@ -439,7 +439,48 @@ def tomesh():
                 return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
         return return_things
 
+@app.route("/formtest", methods=['GET', 'POST'])
+def formtest():
+    if request.method == 'GET':
+        print(123123)
+        return render_template("form/formtest.html", id=session.get('userid'))
+    if request.method == 'POST':
+        # 加载模板文件
+        template_file = 'static/xlsx/test.xlsx'
+        wb = load_workbook(template_file)
 
+        # 选择要填充数据的工作表
+        sheet = wb['Sheet1']
+
+        # 准备要填充的数据
+        data = [
+            ['Name', 'Age', 'Email'],
+            ['John', 25, 'john@example.com'],
+            ['Alice', 30, 'alice@example.com'],
+            ['Bob', 35, 'bob@example.com']
+        ]
+
+        # 获取数据的行数和列数
+        rows = len(data)
+        cols = len(data[0])
+
+        # 填充数据到工作表中
+        for row in range(1, rows + 1):
+            for col in range(1, cols + 1):
+                cell = sheet.cell(row=row, column=col)
+                cell.value = data[row - 1][col - 1]
+
+        # 自动调整列宽
+        for col in range(1, cols + 1):
+            col_letter = get_column_letter(col)
+            sheet.column_dimensions[col_letter].auto_size = True
+
+        # 保存为新的Excel文件
+        output_file = 'static/xlsx/output.xlsx'
+        wb.save(output_file)
+
+        print("数据已成功填充到Excel文件中。")
+        return render_template("form/form.html", id=session.get('userid'))
 # 开始运行
 if __name__ == '__main__':
     # app.run()
