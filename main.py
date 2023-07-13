@@ -10,6 +10,8 @@ import shutil
 from gevent import pywsgi
 import vtk
 from trimesh.exchange.obj import export_obj
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 
 #几个nii转ply的方法
 def read_nii(filename):
@@ -439,36 +441,48 @@ def tomesh():
                 return_things = return_things + "&nbsp&nbsp&nbsp" + i[0]
         return return_things
 
-@app.route("/formtest", methods=['GET', 'POST'])
+@app.route("/form", methods=['GET', 'POST'])
 def formtest():
     if request.method == 'GET':
         print(123123)
-        return render_template("form/formtest.html", id=session.get('userid'))
+        return render_template("form/form.html", id=session.get('userid'))
     if request.method == 'POST':
         # 加载模板文件
-        template_file = 'static/xlsx/test.xlsx'
+        template_file = 'static/xlsx/standard.xlsx'
         wb = load_workbook(template_file)
 
         # 选择要填充数据的工作表
         sheet = wb['Sheet1']
 
         # 准备要填充的数据
-        data = [
-            ['Name', 'Age', 'Email'],
-            ['John', 25, 'john@example.com'],
-            ['Alice', 30, 'alice@example.com'],
-            ['Bob', 35, 'bob@example.com']
-        ]
-
-        # 获取数据的行数和列数
-        rows = len(data)
-        cols = len(data[0])
-
+        XM=request.form.get("XM")
+        ZSZD=request.form.get("ZSZD")
+        ZSYZ = request.form.get("ZSYZ")
+        PZD = request.form.get("PZD")
+        PYZ = request.form.get("PYZ")
+        GZD = request.form.get("GZD")
+        GYZ = request.form.get("GYZ")
+        YXZD = request.form.get("YXZD")
+        YXYZ = request.form.get("YXYZ")
+        ZDMZD = request.form.get("ZDMZD")
+        ZDMYZ = request.form.get("ZDMYZ")
+        PGZD = request.form.get("PGZD")
+        PGYZ = request.form.get("PGYZ")
+        WZD = request.form.get("WZD")
+        WYZ = request.form.get("WYZ")
+        DNZD = request.form.get("DNZD")
+        DNYZ = request.form.get("DNYZ")
+        XQJMZD = request.form.get("XQJMZD")
+        XQJMYZ = request.form.get("XQJMYZ")
+        SGZD = request.form.get("SGZD")
+        SGYZ = request.form.get("SGYZ")
+        YSZD = request.form.get("YSZD")
+        YSYZ = request.form.get("YSYZ")
+        print(ZSZD,ZSYZ,PZD,PYZ,GZD,GYZ,YXZD,YXYZ,ZDMZD,ZDMYZ,PGZD,PGYZ,WZD,WYZ,DNZD,DNYZ,XQJMZD,XQJMYZ,SGZD,SGYZ,
+              YSZD,YSYZ)
         # 填充数据到工作表中
-        for row in range(1, rows + 1):
-            for col in range(1, cols + 1):
-                cell = sheet.cell(row=row, column=col)
-                cell.value = data[row - 1][col - 1]
+        cell = sheet.cell(row=row, column=col)
+        cell.value = data[row - 1][col - 1]
 
         # 自动调整列宽
         for col in range(1, cols + 1):

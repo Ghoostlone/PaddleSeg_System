@@ -38,7 +38,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" style="color:#50B57F">{{id}}</a></li>
             <li><a class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:#50B57F" href="">帮助文档</a></li>
-            <li><a href="/" style="color:#50B57F" =>退出</a></li>
+            <li><a href="/" style="color:#50B57F" >退出</a></li>
           </ul>
         </div>
       </div>
@@ -47,9 +47,13 @@
     <div class="container-fluid" style="color: #21212E">
       <div class="row" style="background:#21212E">
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color: #50B57F" href="/index">表格生成测试</a></li>
-          </ul>
+			<ul class="nav nav-sidebar">
+				<li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
+				<li><a style="color:#50B57F" href="/upload/upload">上传CT图进行分割</a></li>
+				<li><a style="color:#50B57F" href="/CT_view/ct_view">查看3D结果</a></li>
+				<li class="active"><a  class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F" href="/form">填写病历</a></li>
+          	</ul>
+
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div class="panel panel-default">
@@ -64,13 +68,22 @@
 	}
 </style>
             <!-- Table -->
-		<form action="/formtest" method="post">
+		<form action="/form" method="post">
             <table class="table" style="color:#50B57F;background:#2B2D3E">
 				<tr>
 				  <th>#</th>
 				  <th>腹部内脏</th>
 				  <th>医生诊断</th>
 				  <th>医嘱&备注</th>
+				</tr>
+				<tr>
+				  <th scope="row">0</th>
+				  <td>姓名</td>
+				  <td>
+					  <textarea rows="3" placeholder="患者姓名" name="XM"></textarea>
+				  </td>
+				  <td>
+				  </td>
 				</tr>
 				<tr>
 				  <th scope="row">1</th>
