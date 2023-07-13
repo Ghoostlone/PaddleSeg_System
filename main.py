@@ -541,12 +541,16 @@ def F_Download():
 @app.route('/form_download_P', methods=['POST', 'GET'])
 def F_Download_P():
     if request.method == 'GET':
-        return render_template("form/form_Download_P.html", id=session.get('userid'))
-    if request.method=='POST':
         ID=session.get("userid")
         path="static/xlsx/"+ID+"/output.xlsx"
         print("文档搜到")
-        return send_file(path,as_attachment=True)
+        try:
+            # 尝试打开文件并发送
+            return send_file(path,as_attachment=True)
+        except PermissionError:
+            return render_template("form/form_ERROR.html", id=session.get('userid'))
+        except Exception as e:
+            return f'发生错误：{str(e)}', 500
 
 # 开始运行
 if __name__ == '__main__':
