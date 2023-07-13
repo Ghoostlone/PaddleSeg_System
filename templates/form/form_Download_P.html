@@ -57,11 +57,7 @@
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<tr>
-                <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
-                <div id="ajaxtest" style="color: aquamarine"></div>
-            </tr>
-            <form action="/form_download" method="post">
+            <form action="/form_download_P" method="post">
                 <tr>
                     <input type="text" name="ID" style="color: #50B57F" placeholder="病人ID">
                     <input type="submit" value="下载">
@@ -82,17 +78,3 @@
 
 
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><div id="saladict-saladbowl-root" class="saladict-div saladict-external"><div class="saladict-external"></div></div></html>
-<script>
-  $('#btn').click(function () {
-		     $.ajax({
-                url:"/search",
-                type:"POST",
-                data:null,
-                processData:false,
-                contentType:false,
-                success: function (data) {
-                    $("#ajaxtest").html(data);
-                }
-             })
-        })
-</script>

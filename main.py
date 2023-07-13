@@ -2,7 +2,7 @@ import os.path
 
 import cv2
 import pymysql
-from flask import Flask, request, session, redirect
+from flask import Flask, request, session, redirect,send_file
 from flask import render_template
 from flask_bootstrap import Bootstrap
 from openpyxl.styles import Alignment
@@ -531,9 +531,23 @@ def formtest():
 @app.route('/form_download', methods=['POST', 'GET'])
 def F_Download():
     if request.method == 'GET':
-        print(12312312)
+        return render_template("form/form_Download.html", id=session.get('userid'))
     if request.method=='POST':
-        print(65464654654)
+        ID=request.form.get("ID")
+        path="static/xlsx/"+ID+"/output.xlsx"
+        print("文档搜到")
+        return send_file(path,as_attachment=True)
+
+@app.route('/form_download_P', methods=['POST', 'GET'])
+def F_Download_P():
+    if request.method == 'GET':
+        return render_template("form/form_Download_P.html", id=session.get('userid'))
+    if request.method=='POST':
+        ID=session.get("userid")
+        path="static/xlsx/"+ID+"/output.xlsx"
+        print("文档搜到")
+        return send_file(path,as_attachment=True)
+
 # 开始运行
 if __name__ == '__main__':
     # app.run()
