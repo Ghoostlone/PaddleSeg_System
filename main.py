@@ -5,6 +5,7 @@ import pymysql
 from flask import Flask, request, session, redirect
 from flask import render_template
 from flask_bootstrap import Bootstrap
+from openpyxl.styles import Alignment
 from werkzeug.utils import secure_filename
 import shutil
 from gevent import pywsgi
@@ -456,6 +457,7 @@ def formtest():
 
         # 准备要填充的数据
         XM=request.form.get("XM")
+        ID=request.form.get("ID")
         ZSZD=request.form.get("ZSZD")
         ZSYZ = request.form.get("ZSYZ")
         PZD = request.form.get("PZD")
@@ -478,20 +480,49 @@ def formtest():
         SGYZ = request.form.get("SGYZ")
         YSZD = request.form.get("YSZD")
         YSYZ = request.form.get("YSYZ")
-        print(ZSZD,ZSYZ,PZD,PYZ,GZD,GYZ,YXZD,YXYZ,ZDMZD,ZDMYZ,PGZD,PGYZ,WZD,WYZ,DNZD,DNYZ,XQJMZD,XQJMYZ,SGZD,SGYZ,
-              YSZD,YSYZ)
         # 填充数据到工作表中
-        cell = sheet.cell(row=row, column=col)
-        cell.value = data[row - 1][col - 1]
+        sheet.cell(3,5).value=XM
+        sheet.cell(5, 3).value = ZSZD
+        sheet.cell(5, 5).value = ZSYZ
+        sheet.cell(6, 3).value = PZD
+        sheet.cell(6, 5).value = PYZ
+        sheet.cell(7, 3).value = GZD
+        sheet.cell(7, 5).value = GYZ
+        sheet.cell(8, 3).value = YXZD
+        sheet.cell(8, 5).value = YXYZ
+        sheet.cell(9, 3).value = ZDMZD
+        sheet.cell(9, 5).value = ZDMYZ
+        sheet.cell(10, 3).value = PGZD
+        sheet.cell(10, 5).value = PGYZ
+        sheet.cell(11, 3).value = WZD
+        sheet.cell(11, 5).value = WYZ
+        sheet.cell(12, 3).value = DNZD
+        sheet.cell(12, 5).value = DNYZ
+        sheet.cell(13, 3).value = XQJMZD
+        sheet.cell(13, 5).value = XQJMYZ
+        sheet.cell(14, 3).value = SGZD
+        sheet.cell(14, 5).value = SGYZ
+        sheet.cell(15, 3).value = YSZD
+        sheet.cell(15, 5).value = YSYZ
 
+        for i in range(5,15):
+            sheet.cell(i,3).alignment=Alignment(wrap_text=True)
+            sheet.cell(i, 5).alignment = Alignment(wrap_text=True)
+        # cell = sheet.cell(row=row, column=col)
         # 自动调整列宽
-        for col in range(1, cols + 1):
+        for col in range(1, 5):
             col_letter = get_column_letter(col)
             sheet.column_dimensions[col_letter].auto_size = True
 
+        output_file = "static/xlsx/"+ID+"/"
+        if os.path.exists(output_file):
+            print("有了")
+        else:
+            os.mkdir(output_file)
+            print("没有，创了")
         # 保存为新的Excel文件
-        output_file = 'static/xlsx/output.xlsx'
-        wb.save(output_file)
+        output_path=output_file+"output.xlsx"
+        wb.save(output_path)
 
         print("数据已成功填充到Excel文件中。")
         return render_template("form/form.html", id=session.get('userid'))
