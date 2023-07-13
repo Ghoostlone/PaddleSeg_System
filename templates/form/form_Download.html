@@ -51,7 +51,8 @@
 				<li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
 				<li><a style="color:#50B57F" href="/upload/upload">上传CT图进行分割</a></li>
 				<li><a style="color:#50B57F" href="/CT_view/ct_view">查看3D结果</a></li>
-				<li class="active"><a  class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F" href="/form">填写病历</a></li>
+                <li><a style="color:#50B57F" href="/form">填写病历</a></li>
+				<li class="active"><a  class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F" href="/form_download">下载病历</a></li>
           	</ul>
 
         </div>
@@ -60,23 +61,11 @@
                 <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
                 <div id="ajaxtest" style="color: aquamarine"></div>
             </tr>
-          <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading" style="color:#50B57F;background:#2B2D3E">诊断单</div>
-<style>
-	textarea{
-		width: 100%;
-		resize: none;
-		color: #50B57F;
-		background:#2B2D3E;
-	}
-</style>
-            <!-- Table -->
-		<form action="/form" method="post">
-            <table class="table" style="color:#50B57F;background:#2B2D3E">
-            </table>
-        </form>
-          </div>
+            <form>
+                <tr>
+                    <input type="text" name="ID" style="color: #50B57F" placeholder="病人ID">
+                </tr>
+            </form>
         </div>
       </div>
     </div>

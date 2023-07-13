@@ -526,6 +526,14 @@ def formtest():
 
         print("数据已成功填充到Excel文件中。")
         return render_template("form/form.html", id=session.get('userid'))
+
+
+@app.route('/form_download', methods=['POST', 'GET'])
+def F_Download():
+    if request.method == 'GET':
+        print(12312312)
+    if request.method=='POST':
+        print(65464654654)
 # 开始运行
 if __name__ == '__main__':
     # app.run()
