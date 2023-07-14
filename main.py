@@ -550,7 +550,7 @@ def F_Download_P():
         except PermissionError:
             return render_template("form/form_ERROR.html", id=session.get('userid'))
         except Exception as e:
-            return f'发生错误：{str(e)}', 500
+            return render_template("form/form_ERROR.html", id=session.get('userid'))
 
 # 开始运行
 if __name__ == '__main__':
