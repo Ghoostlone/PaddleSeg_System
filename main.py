@@ -212,8 +212,8 @@ def signup():
         if results:
             return render_template("signup/SignupFail.html")
         else:
-            sql = "INSERT INTO  `user` VALUES('" + inputId + "','" + inputEmail + "','" \
-                  + inputPassword + "','" + Identity + "')"
+            sql = "INSERT INTO  `user` VALUES('" + inputId + "','" + inputPassword + "','" \
+                  + inputEmail + "','" + Identity + "')"
             if identity_Flag == "0":
                 if Sir_key == "LGDLGD":
                     n = cursor.execute(sql)
@@ -274,8 +274,8 @@ def upload():
                     print(diagnosis_ID, session.get('userid'), patient_ID, upload_path)
                     print(upload_path)
                     upload_path = upload_path.replace("\\", "/")
-                    sql = "INSERT INTO diagnosis VALUES (" + diagnosis_ID + "," + session.get(
-                        'userid') + "," + patient_ID + ",'" + upload_path + "')        "
+                    sql = "INSERT INTO diagnosis VALUES (" + diagnosis_ID + ",'" + session.get(
+                        'userid') + "'," + patient_ID + ",'" + upload_path + "')        "
                     cursor.execute(sql)
                     cursor.connection.commit()
                     print(123132132132132132121213123213213)
@@ -445,7 +445,6 @@ def tomesh():
 @app.route("/form", methods=['GET', 'POST'])
 def formtest():
     if request.method == 'GET':
-        print(123123)
         return render_template("form/form.html", id=session.get('userid'))
     if request.method == 'POST':
         # 加载模板文件
