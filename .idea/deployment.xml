@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@region-8.seetacloud.com:29861 password" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@region-8.autodl.pro:36013" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="root@region-8.seetacloud.com:29861 password">
+      <paths name="root@region-8.autodl.pro:29861">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_275" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@region-8.autodl.pro:29861 (2)">
         <serverdata>
           <mappings>
             <mapping deploy="/root/autodl-tmp/Flask" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="yi.ou@192.168.2.14:22 key">
+      <paths name="root@region-8.autodl.pro:29861 (3)">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/root/autodl-tmp/Flask" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="yi.ou@192.168.2.14:22 key (2)">
+      <paths name="root@region-8.autodl.pro:36013">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/root/autodl-tmp/Flask" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@region-8.seetacloud.com:29861">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_407" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

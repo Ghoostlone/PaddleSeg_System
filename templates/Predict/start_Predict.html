@@ -48,32 +48,36 @@
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
           <ul class="nav nav-sidebar">
             <li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
-            <li><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F" href="/upload/upload">上传CT图</a></li>
-            <li class="active"><a style="color:#50B57F">开始分割</a></li>
+            <li><a  style="color:#50B57F" href="/upload/upload">上传CT图</a></li>
+            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F">开始分割</a></li>
             <li><a style="color:#50B57F" href="/CT_view/ct_view">查看3D结果</a></li>
             <li><a style="color:#50B57F" href="/form">填写病历</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <tr>
-                <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
-                <div id="ajaxtest" style="color: aquamarine"></div>
+                <input type="button" id="btn" style="color: #50B57F ;background:#21212E;font-size: x-large" value="若需要查询病人ID请点击此按钮">
+                <div id="ajaxtest" style="color: aquamarine;background:#21212E;font-size: large"></div>
             </tr>
+            <tr>&nbsp;</tr>
             <tr>
                 <form id="diag_sub" enctype='multipart/form-data' style="color: #2B2D3D">
-                    <td><input type="text" name="id" placeholder="病人ID"></td>
-                    <td><input type="button" value="上传" id="diag_sub_bu"></td>
-                    <td><div id="diag1" style="color: aquamarine"></div></td>
+                    <td><input type="text" name="id" placeholder="病人ID" style="font-size: x-large;color: #50B57F;background-color: #21212E"></td>
+                    <td><input type="button" value="查询此病人名下所有CT文件" id="diag_sub_bu" style="font-size: x-large;color: #50B57F;background-color: #21212E"></td>
+                    <td><div id="diag1" style="color: aquamarine;background-color: #21212E;color: #50B57F;font-size: large"></div></td>
                   </form>
             </tr>
-            <tr>
-                <form id="file_name_sub" enctype='multipart/form-data' style="color: #2B2D3D" action="/run_predict" method="post">
-                    <td><input type="text" name="file_path" placeholder="文件地址"></td>
-<!--                    <td><input type="button" value="上传" id="file_sub_bu"></td>-->
-                    <td><div id="file1" style="color: aquamarine"></div></td>
-                    <td><input type="submit" style="color: #50B57F ;background:#2B2D3E" value="开始训练"></td>
-                </form>
-            </tr>
+            <form id="file_name_sub" enctype='multipart/form-data' style="color: #2B2D3D" action="/run_predict" method="post">
+                <tr>
+                        <td><input type="text" name="file_path" placeholder="请在查询CT文件后把需要展示的文件路径复制到此" style="width: 100%;color: #50B57F ;background:#21212E;font-size: x-large"></td>
+                        <td><div id="file1" style="color: aquamarine"></div></td>
+                </tr>
+                <tr style="margin: 10px">&nbsp;
+                </tr>
+                <tr style="margin-top: 30px">
+                        <td><p><input type="submit" style="color: #50B57F ;background:#21212E;font-size: x-large" value="开始训练"></p></td>
+                </tr>
+            </form>
         </div>
       </div>
     </div>

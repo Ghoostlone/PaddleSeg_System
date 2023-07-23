@@ -43,9 +43,9 @@
       </div>
     </nav>
 
-    <div class="container-fluid" style="color: #21212E">
-      <div class="row" style="background:#21212E">
-        <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
+    <div class="container-fluid" style="color: #21212E;background-color: #21212E">
+      <div class="row" style="background-color:#21212E">
+        <div class="col-sm-3 col-md-2 sidebar" style="background-color:#21212E">
           <ul class="nav nav-sidebar">
             <li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
             <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F">上传CT图</a></li>
@@ -54,28 +54,33 @@
             <li><a style="color:#50B57F" href="/form">填写病历</a></li>
           </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header" style="color:#50B57F">上传CT环节</h2>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background-color: #21212E">
+          <h2 class="sub-header" style="color:#50B57F;background-color: #21212E">上传CT文件到服务器</h2>
+
           <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
+              <td style="background-color: #21212E"><input type="button" id="btn" style="color: #50B57F;font-size: large;background-color: #21212E" value="查询病人ID"></td>
+            <table class="table table-striped" style="background-color: #21212E;width: 100%">
+              <tbody style="background-color: #21212E">
+              <form id="img_sub" enctype='multipart/form-data' style="background-color: #21212E;border: none">
+                  <tr style="background-color: #21212E">
+                      <td style="background-color: #21212E">
+                        <input type="text" name="diagnosis" placeholder="诊断ID(此次问诊的编号)" style="color: #50B57F;width: 100%;font-size: x-large;background-color: #21212E">
+                      </td>
+                      <td style="background-color: #21212E">
+                        <input type="text" name="id" placeholder="病人ID(如不明请按”查询病人ID“按钮）" style="width: 100%;color: #50B57F;font-size: x-large;background-color: #21212E">
+                      </td>
+                  </tr>
+                  <tr style="background-color: #21212E">
+                      <td style="background-color: #21212E"><input type="file" name="image" style="background-color: #21212E;font-size: large;color: #50B57F;"></td>
+                  </tr>
+                  <tr style="background-color: #21212E">
+                      <td style="background-color: #21212E"><input type="button" value="上传文件" id="img_sub_bu" style="font-size: large;color: #50B57F;background-color: #21212E"></td>
+                      <td style="background-color: #21212E"><div id="img1" style="color: aqua"></div></td>
+                  </tr>
+                </form>
                 <tr>
-                  <th style="color: #50B57F">上传.nii.gz文件</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <form id="img_sub" enctype='multipart/form-data' style="color: #2B2D3D">
-                    <td><input type="text" name="diagnosis" placeholder="诊断ID"></td>
-                    <td><input type="text" name="id" placeholder="病人ID"></td>
-                    <td><input type="file" name="image"></td>
-                    <td><input type="button" value="上传" id="img_sub_bu"></td>
-                    <td><div id="img1" style="color: aqua"></div></td>
-                  </form>
-                </tr>
-                <tr>
-                  <input type="button" id="btn" style="color: #50B57F" value="查询病人ID">
-                  <div id="ajaxtest" style="color: aquamarine" aria-placeholder="上传按钮请勿多点"></div>
+                  <div id="ajaxtest" style="color: aquamarine;color: #50B57F;font-size: large;background-color: #21212E" aria-placeholder="上传按钮请勿多点";></div>
+                  <p>&nbsp;</p>
                 </tr>
               </tbody>
             </table>

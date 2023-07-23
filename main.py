@@ -162,7 +162,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="frp-act.top", port=55926, user="root", password="oypjyozj", database="test", charset="utf8")
+cnn = pymysql.connect(host="frp-can.top", port=64563, user="root", password="oypjyozj", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 # 登录页面
@@ -296,7 +296,10 @@ def CT_view():
         P_ID = request.form.get("P_ID")
         ply_path = "../static/img/ply_path/" + P_ID + "/"
         print(ply_path)
-        return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
+        if(os.path.exists(ply_path)):
+            return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
+        else:
+            return render_template("CT_view/3D_ERROR.html")
 
 
 @app.route('/start_Predict',methods=['GET','POST'])
@@ -534,8 +537,11 @@ def F_Download():
     if request.method=='POST':
         ID=request.form.get("ID")
         path="static/xlsx/"+ID+"/output.xlsx"
-        print("文档搜到")
-        return send_file(path,as_attachment=True)
+        if(os.path.exists(path)):
+            print("文档搜到")
+            return send_file(path,as_attachment=True)
+        else:
+            return render_template("form/form_ERROR.html")
 
 @app.route('/form_download_P', methods=['POST', 'GET'])
 def F_Download_P():
