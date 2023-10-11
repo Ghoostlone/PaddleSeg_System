@@ -283,7 +283,6 @@ def upload():
                 else:
                     return "此ID非病人，请重新输入"
         else:
-            print("查无此人，请重新输入病人ID")
             return "查无此人，请重新输入病人ID"
 
 
