@@ -161,8 +161,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
-# 连接到数据库
-cnn = pymysql.connect(host="frp-air.top", port=41843, user="root", password="oypjyozj", database="test", charset="utf8")
+# 连接到数据库部分请自行设置
+cnn = pymysql.connect(host="", port=, user="root", password="", database="test", charset="utf8")
 cursor = cnn.cursor()
 
 # 登录页面
