@@ -29,9 +29,12 @@
 
    ```bash
    git clone https://github.com/Ghoostlone/PaddleSeg_System
+   ```
 安装环境
 
+   ```
    pip install -r requirements.txt
+   ```
 
 ## 使用
 
