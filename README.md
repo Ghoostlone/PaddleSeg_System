@@ -1,9 +1,7 @@
 # PaddleSeg_System
-此系统为3D智慧医疗 求是队的参赛源码
+此系统为3D智慧医疗--“求是队”的源码
 比赛相关信息：https://aistudio.baidu.com/competition/detail/889/0/introduction
 # 3D 肺部分割 Web 系统
-
-![项目演示图](示例图片的链接)
 
 ## 项目简介
 
@@ -25,9 +23,20 @@
 - Node.js
 - npm
 
-### 安装步骤
+### 安装
 
-1. 克隆仓库
+克隆仓库
 
    ```bash
    git clone https://github.com/Ghoostlone/PaddleSeg_System
+   
+## 使用
+
+在使用系统之前，请确保已完成安装步骤。接下来，您可以按照以下步骤使用系统：
+
+1. 打开浏览器并访问系统地址。
+2. 登录或注册一个账户。
+3. 上传医学图像。
+4. 开始自动分割。
+5. 查看分割结果（3D建模）。
+6. 医生可以开据诊断报告
