@@ -29,7 +29,10 @@
 
    ```bash
    git clone https://github.com/Ghoostlone/PaddleSeg_System
-   
+安装环境
+
+   pip install -r requirements.txt
+
 ## 使用
 
 在使用系统之前，请确保已完成安装步骤。接下来，您可以按照以下步骤使用系统：
