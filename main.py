@@ -294,9 +294,10 @@ def CT_view():
         return render_template("CT_view/ct_view.html", id=session.get('userid'))
     if request.method == 'POST':
         P_ID = request.form.get("P_ID")
+        ply_file_path="./static/img/ply_path/" + P_ID + "/"
         ply_path = "../static/img/ply_path/" + P_ID + "/"
         print(ply_path)
-        if(os.path.exists(ply_path)):
+        if os.path.exists(ply_file_path):
             return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
         else:
             return render_template("CT_view/3D_ERROR.html")
@@ -411,7 +412,7 @@ def p_ct():
         P_ID = session.get('userid')
         base_path = os.path.dirname(__file__)
         print(base_path)
-        ply_path = "../static/img/ply_path/" + P_ID + "/"
+        ply_path = "./static/img/ply_path/" + P_ID + "/"
         upload_path = os.path.join(base_path,ply_path)
         print(upload_path)
         return render_template("CT_view/3D_render.html", id=session.get('userid'), ply_path=ply_path)
