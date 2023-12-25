@@ -988,7 +988,7 @@ Rhino3dmLoader.Rhino3dmWorker = function () {
 
 		}
 
-		// Handle views
+		// Handle templates
 
 		for ( var i = 0; i < doc.views().count(); i ++ ) {
 
@@ -1001,7 +1001,7 @@ Rhino3dmLoader.Rhino3dmWorker = function () {
 
 		}
 
-		// Handle named views
+		// Handle named templates
 
 		for ( var i = 0; i < doc.namedViews().count(); i ++ ) {
 

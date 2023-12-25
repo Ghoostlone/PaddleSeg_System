@@ -1,18 +1,16 @@
 import os.path
 
-import cv2
 import pymysql  # MySQL包
+import vtk  # 用于创建、渲染和分析3D图像的库。
 from flask import Flask, request, session, redirect, send_file  # 后端Flask包
 from flask import render_template
 from flask_bootstrap import Bootstrap  # 前端Bootstrap包
-from openpyxl.styles import Alignment  # 表格包
-from werkzeug.utils import secure_filename  # 文件读取包
-import shutil
 from gevent import pywsgi  # gevent库中的服务器，用于运行Flask应用程序。
-import vtk  # 用于创建、渲染和分析3D图像的库。
-from trimesh.exchange.obj import export_obj  # 用于将3D模型导出为其他格式的函数。
 from openpyxl import load_workbook  # 用于加载现有的Excel工作簿。
+from openpyxl.styles import Alignment  # 表格包
 from openpyxl.utils import get_column_letter  # 用于将列索引转换为Excel中的字母列标识。
+from trimesh.exchange.obj import export_obj  # 用于将3D模型导出为其他格式的函数。
+from werkzeug.utils import secure_filename  # 文件读取包
 
 
 # 几个用于nii转ply的工具函数（read_nii、get_mc_contour、smoothing、singledisplay、multidisplay、write_ply）
@@ -175,12 +173,13 @@ def write_ply(obj, save_dir, color):
 
 
 # 初始化Flask后端
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', )
 app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host="", port=64563, user="root", password="", database="test", charset="utf8")
+cnn = pymysql.connect(host='ghoostlone.e3.luyouxia.net', port=10965, user='root', passwd='oypjyozj', db='test',
+                      charset='utf8')
 cursor = cnn.cursor()
 
 
@@ -189,6 +188,7 @@ cursor = cnn.cursor()
 def login():
     if request.method == 'GET':
         return render_template("login/login.html")
+        # return redirect("https://www.baidu.com")
     if request.method == 'POST':
         inputId = request.form.get('inputId')
         inputPassword = request.form.get('inputPassword')
@@ -201,11 +201,11 @@ def login():
                 if row[0] == inputPassword:
                     session['userid'] = inputId
                     session['identity'] = row[1]
-                    return redirect('/index/index')
+                    return redirect('index/index')
             else:
                 return render_template("login/wrongPWD.html")
         else:
-            return render_template("/login/loginFail.html")
+            return render_template("login/loginFail.html")
 
 
 # 注册页面
@@ -594,5 +594,5 @@ def F_Download_P():
 # 开始运行
 if __name__ == '__main__':
     # app.run()
-    server = pywsgi.WSGIServer(('0.0.0.0', 6006), app)
+    server = pywsgi.WSGIServer(('127.0.0.1', 5000), app)
     server.serve_forever()
