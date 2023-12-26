@@ -178,7 +178,7 @@ app.config['SECRET_KEY'] = os.urandom(5)
 bootstrap = Bootstrap(app)
 
 # 连接到数据库
-cnn = pymysql.connect(host='ghoostlone.e3.luyouxia.net', port=10965, user='root', passwd='oypjyozj', db='test',
+cnn = pymysql.connect(host='', port=0, user='root', passwd='', db='test',
                       charset='utf8')
 cursor = cnn.cursor()
 
