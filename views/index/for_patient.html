@@ -32,12 +32,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#" style="color: #50B57F">&nbsp;&nbsp;&nbsp;腹部多器官分割看图软件</a>
+          <a class="navbar-brand" href="/index/index" style="color: #50B57F">&nbsp;&nbsp;&nbsp;腹部多器官分割看图软件</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="background: #2B2D3D">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" style="color:#50B57F">{{id}}</a></li>
-            <li><a href="/" style="color:#50B57F">退出</a></li>
+            <li><a href="/" style="color:#50B57F">退出&nbsp;&nbsp;&nbsp;</a></li>
           </ul>
         </div>
       </div>
@@ -47,32 +47,17 @@
       <div class="row" style="background:#21212E">
         <div class="col-sm-3 col-md-2 sidebar" style="background:#21212E">
           <ul class="nav nav-sidebar">
-            <li><a style="color: #50B57F" href="/index/index">系统简介</a></li>
-            <li><a style="color:#50B57F" href="/upload/upload">上传CT图进行分割</a></li>
-            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color:#50B57F" href="/CT_view/ct_view">查看3D结果</a></li>
-            <li><a style="color:#50B57F" href="/form">填写病历</a></li>
+            <li class="active"><a class="glyphicon glyphicon-asterisk" aria-hidden="true" style="color: #50B57F" href="/index/index">系统简介</a></li>
+            <li ><a style="color:#50B57F" href="/P_CT">查看本人CT结果</a></li>
+            <li><a style="color:#50B57F" href="/form_download_P">下载病历</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <table>
-            <tr>
-              <form action="/CT_view/ct_view" method="post">
-              <td style="color:#50B57F">
-                <input type="text" style="color: #50B57F;background-color: #21212E;font-size: large" name="P_ID" placeholder="病人ID">
-              </td>
-              <td style="color:#50B57F">
-                <input type="submit" value="查看此病人的CT结果" style="color: #50B57F;background-color: #21212E;font-size: large">
-              </td>
-              </form>
-            </tr>
-            <tr>
-              <input type="button" id="btn" style="color: #50B57F;background-color: #21212E;font-size: large" value="查询病人ID">
-              <div id="ajaxtest" style="color: aquamarine;font-size: large;color: #50B57F;background-color: #21212E"></div>
-              <p>&nbsp</p>
-              <p>&nbsp</p>
-            </tr>
-          </table>
-          </div>
+          <h1 class="page-header" style="color: #50B57F">系统简介和流程图展示</h1>
+          <h2 class="sub-header" style="color:#50B57F">
+            用户可以上传.nii.gz文件进行腹部多器官分割，并在软件中对结果进行3D检视。
+          </h2>
+          <img src="../static/img/Process_Flow_Chart.png" style="color:#50B57F;background:#2B2D3E"/>
         </div>
       </div>
     </div>
@@ -88,18 +73,3 @@
 
 
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><div id="saladict-saladbowl-root" class="saladict-div saladict-external"><div class="saladict-external"></div></div></html>
-<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-<script>
-  $('#btn').click(function () {
-		     $.ajax({
-                url:"/search",
-                type:"POST",
-                data:null,
-                processData:false,
-                contentType:false,
-                success: function (data) {
-                    $("#ajaxtest").html(data);
-                }
-             })
-        })
-</script>
